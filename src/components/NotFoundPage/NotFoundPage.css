@@ -1,0 +1,60 @@
+.not-found {
+  display: grid;
+  min-height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.not-found__title {
+  align-self: end;
+  margin: 0;
+  font-weight: 400;
+  font-size: 140px;
+  line-height: 169.43px;
+  text-align: center;
+}
+
+.not-found__subtitle {
+  margin: 5px 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19.36px;
+  text-align: center;
+}
+
+.not-found__button {
+  display: block;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16.94px;
+  text-align: center;
+  text-decoration: none;
+  color: #000000;
+  transition: opacity 0.3s ease-in;
+  justify-self: center;
+  background-color: transparent;
+  border: none;
+}
+
+.not-found__button:hover {
+  opacity: 0.7;
+}
+
+@media screen and (max-width: 321px) {
+  .not-found__title {
+    font-size: 80px;
+    line-height: 96.82px;
+  }
+
+  .not-found__subtitle {
+    font-size: 12px;
+    line-height: 14.52px;
+  }
+
+  .not-found__button {
+    font-size: 12px;
+    line-height: 14.52px;
+    margin-bottom: 20px;
+    align-self: end;
+  }
+}
