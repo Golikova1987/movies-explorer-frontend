@@ -39,8 +39,8 @@ export default function Profile({ setLoggedIn }) {
             label="Имя"
             defaultValue="Виталий"
             disabled={!isEdit && "disabled"}
-            min="2"
-            max="30"
+            minlength="2"
+            maxlength="30"
           />
           <Input
             classNameInput="profile__input"

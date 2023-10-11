@@ -2,6 +2,9 @@ import Input from "../Input/Input.jsx";
 import AuthForm from "../AuthForm/AuthForm.jsx";
 
 export default function Register() {
+  const handleRegister = () => {};
+  const handleChange = () => {};
+
   return (
     <AuthForm
       title="Добро пожаловать!"
@@ -10,6 +13,7 @@ export default function Register() {
       textUnderButton="Уже зарегистрированы?"
       textLink="Войти"
       path="/signin"
+      onSubmit={handleRegister}
     >
       <Input
         classNameInput="form__input"
@@ -18,7 +22,7 @@ export default function Register() {
         name="name"
         placeholder="Имя"
         label="Имя"
-        required
+        required="required"
         minLength="2"
         maxLength="30"
         defaultValue="Виталий"
@@ -32,8 +36,9 @@ export default function Register() {
         name="email"
         label="E-mail"
         placeholder="E-mail"
-        required
+        required="required"
         defaultValue="pochta@yandex.ru"
+        onChange={handleChange}
       >
         <span className="form__error"></span>
       </Input>
@@ -44,8 +49,9 @@ export default function Register() {
         type="password"
         placeholder="Пароль"
         label="Пароль"
-        required
+        required="required"
         defaultValue="12345678912345"
+        onChange={handleChange}
       >
         <span className="form__error">Что-то пошло не так...</span>
       </Input>

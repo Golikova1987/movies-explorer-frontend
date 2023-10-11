@@ -11,6 +11,7 @@ const Input = ({
   required,
   disabled,
   tabIndex,
+  onChange,
 }) => {
   return (
     <label className={classNameLabel} tabIndex={tabIndex}>
@@ -23,9 +24,10 @@ const Input = ({
         defaultValue={defaultValue}
         value={value}
         required={required}
-        minLength="2"
-        maxLength="30"
+        minlength="2"
+        maxlength="30"
         disabled={disabled}
+        onChange={onChange}
       />
       {children}
     </label>

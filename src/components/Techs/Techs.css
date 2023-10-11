@@ -62,7 +62,7 @@
 }
 
 @media screen and (max-width: 1279px) {
-  .techs {
+  .techs__container {
     max-width: calc(668px + (1140 - 668) * (100vw - 768px) / (1279 - 768));
   }
 
@@ -85,13 +85,17 @@
 
   .techs__element {
     font-size: 12px;
+    width: 84px;
   }
 }
 
 @media screen and (max-width: 767px) {
   .techs {
-    max-width: calc(284px + (668 - 284) * (100vw - 320px) / (767 - 320));
     background-color: #FFFFFF;
+  }
+
+  .techs__container {
+    max-width: calc(284px + (668 - 284) * (100vw - 320px) / (767 - 320));
   }
 
   .techs__header {

@@ -1,6 +1,6 @@
 const Form = ({ children, name, onSubmit, className }) => {
   return (
-      <form className={className} name={name} onSubmit={onSubmit} noValidate>
+      <form className={className} name={name} onSubmit={onSubmit} novalidate>
           {children}
       </form>
   )

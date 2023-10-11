@@ -58,6 +58,7 @@
   margin-top: auto;
   transition: opacity 0.3s;
   max-width: 46px;
+  cursor: pointer;
 }
 
 .about-me__link:hover {

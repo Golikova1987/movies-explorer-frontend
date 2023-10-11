@@ -6,6 +6,8 @@ export default function Login({ setLoggedIn }) {
     setLoggedIn(true);
   };
 
+  const handleChange = () => {};
+
   return (
     <AuthForm
       title="Рады видеть!"
@@ -24,8 +26,9 @@ export default function Login({ setLoggedIn }) {
         name="email"
         placeholder="E-mail"
         label="E-mail"
-        required
+        required="required"
         defaultValue="pochta@yandex.ru"
+        onChange={handleChange}
       >
         <span className="form__error"></span>
       </Input>
@@ -36,8 +39,9 @@ export default function Login({ setLoggedIn }) {
         name="password"
         label="Пароль"
         placeholder="Пароль"
-        required
+        required="required"
         defaultValue="12345678912345"
+        onChange={handleChange}
       >
         <span className="form__error"></span>
       </Input>

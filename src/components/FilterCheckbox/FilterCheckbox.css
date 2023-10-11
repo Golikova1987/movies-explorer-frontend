@@ -21,7 +21,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(52, 52, 52, 1);
+  background-color: #EBEBEB;
   -webkit-transition: 0.4s;
   transition: 0.4s;
   border-radius: 999px;
@@ -34,7 +34,7 @@
   width: 10px;
   left: 2px;
   bottom: 2px;
-  background-color: rgba(196, 196, 196, 1);
+  background-color: #F5F5F5;
   -webkit-transition: 0.4s;
   transition: 0.4s;
   border-radius: 50%;

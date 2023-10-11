@@ -44,6 +44,14 @@
   cursor: pointer;
 }
 
+.movie__save-button:first-child {
+  background-image: url(../../images/save3.svg);
+  background-position: center;
+  background-size: 21px 21px;
+  background-repeat: no-repeat;
+  
+}
+
 .movie__save-button:hover {
   opacity: 0.7;
   visibility: visible;

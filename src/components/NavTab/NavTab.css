@@ -7,8 +7,9 @@
 
 .nav-tab__list {
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* display: grid;
+  grid-template-columns: repeat(3, 1fr); */
+  display: flex;
   gap: 40px;
   margin: 0;
   padding: 24px 0;
