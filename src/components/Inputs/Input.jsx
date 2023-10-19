@@ -24,8 +24,8 @@ const Input = ({
         defaultValue={defaultValue}
         value={value}
         required={required}
-        minlength="2"
-        maxlength="30"
+        minLength="2"
+        maxLength="30"
         disabled={disabled}
         onChange={onChange}
       />
