@@ -1,4 +1,4 @@
-.about-project {
+/* .about-project {
   max-width: 1140px;
   margin: 0 auto;
 }
@@ -167,10 +167,10 @@
   .about-project__part-progress {
     font-size: 11px;
   }
-}
+} */
 
 
-/* .about-project {
+.about-project {
   margin: 0 auto;
   max-width: 1140px;
 }
@@ -339,4 +339,4 @@
   .about-project__deadline-subject {
     font-size: 11px;
   }
-} */
+}

@@ -7,16 +7,3 @@ const NotFoundPage = () => {
 };
 
 export default NotFoundPage;
-
-
-// import NotFoundPage from "../components/NotFoundPage/NotFoundPage";
-
-// function NotFound() {
-//   return (
-//     <main>
-//       <NotFoundPage />
-//     </main>
-//   );
-// }
-
-// export default NotFound;

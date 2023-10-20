@@ -18,22 +18,3 @@ const FilterCheckbox = ({ isChecked, setCheckbox, name }) => {
 };
 
 export default FilterCheckbox;
-
-// import './FilterCheckbox.css';
-// import Input from '../Input/Input';
-
-// export default function FilterCheckbox({ isChecked, setCheckbox, name }) {
-//   return (
-//     <Input
-//       classNameLabel="search__label-switch"
-//       classNameInput="search__input-checkbox"
-//       type="checkbox"
-//       name={name}
-//       tabIndex="0"
-//       checked={isChecked}
-//       onChange={(e) => setCheckbox(e.target.checked)}
-//     >
-//       <span className="search__slider"></span>
-//     </Input>
-//   );
-// }
