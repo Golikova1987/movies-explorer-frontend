@@ -25,10 +25,12 @@ import InfoTooltip from "../InfoTooltip/InfoTooltip";
 const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  // const path = location.pathname;
 
   const [isLoggedIn, setIsLoggedIn] = useState(
     JSON.parse(localStorage.getItem("isLoggedIn")) || false
   );
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoadingMovies, setIsLoadingMovies] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingSavedMovies, setIsLoadingSavedMovies] = useState(false);
@@ -164,6 +166,133 @@ const App = () => {
         }
       });
   };
+
+
+
+  // useEffect(() => {
+  //   checkUser();
+  // }, [isLoggedIn]);
+
+  // useEffect(() => {
+  //   setIsLoadingMovies(true);
+  //   if (localStorage.token) {
+  //     Promise.all([mainApi.getUserInfo(localStorage.token), mainApi.getMovies(localStorage.token)])
+  //       .then(([userInfo, savedMovies]) => {
+  //         setCurrentUser(userInfo);
+  //         setMovies(movies);
+  //         setSavedMovies(savedMovies);
+  //         setFilteredSavedMovies(savedMovies);
+  //         setIsLoadingMovies(true);
+  //       })
+  //       .catch((err) => {
+  //         setIsLoadingMovies(false);
+  //         console.log(`Возникла ошибка: ${err}`);
+  //       });
+  //   } else {
+  //     setIsLoggedIn(false);
+  //   }
+  // }, [isLoggedIn]);
+
+  // function checkUser() {
+  //   const jwt = localStorage.getItem("token");
+  //   if (jwt) {
+  //     mainApi
+  //     .checkToken(jwt)
+  //     .then((res) => {
+  //       if (res) {
+  //         setCurrentUser(res);
+  //         setIsLoggedIn(true);
+  //         navigate(path, { replace: true });
+  //       } else {
+  //         setIsLoggedIn(false);
+  //       }
+  //     })
+  //     .catch((err) => console.log(`Возникла ошибка: ${err}`));
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setIsStatusPopupOpen(false);
+  //   }, 2000);
+  // }, [isStatusPopupOpen]);
+
+  // const handleLogin = (email, password) => {
+  //   setIsLoading(true);
+  //   mainApi
+  //     .login(email, password)
+  //     .then(() => {
+  //       setIsLoggedIn(true);
+  //       // localStorage.setItem("isLoggedIn", JSON.stringify(true));
+  //       localStorage.setItem('token', res.token);
+  //       navigate("/movies",  { replace: true });
+  //       setIsLoading(false);
+  //       setIsStatusPopupOpen(true);
+  //       setIsStatus(true);
+  //       setTextPopup("Успешный вход в аккаунт. Добро пожаловать!");
+  //     })
+  //     .catch((err) => {
+  //       setIsLoading(false);
+  //       console.log(`Возникла ошибка: ${err}`);
+  //       if (err === UNAUTHORIZED) {
+  //         setStatus(UNAUTHORIZED_TEXT);
+  //       } else if (err === SERVER_ERROR) {
+  //         setStatus(SERVER_ERROR_TEXT);
+  //       } else {
+  //         setStatus("При авторизации произошла ошибка.");
+  //       }
+  //     });
+  // };
+
+  // const handleRegister = (name, email, password) => {
+  //   setIsLoading(true);
+  //   setIsStatus(true);
+  //   mainApi
+  //     .register(name, email, password)
+  //     .then(() => {
+  //       handleLogin(email, password);
+  //       setIsLoading(false);
+  //       setIsStatusPopupOpen(true);
+  //       setIsStatus(true);
+  //       setTextPopup("Регистрация прошла успешно. Добро пожаловать!");
+  //     })
+  //     .catch((err) => {
+  //       setIsLoading(false);
+  //       console.log(`Возникла ошибка: ${err}`);
+  //       if (err === CONFLICT) {
+  //         setStatus(CONFLICT_TEXT);
+  //       } else if (err === SERVER_ERROR) {
+  //         setStatus(SERVER_ERROR_TEXT);
+  //       } else {
+  //         setStatus("При регистрации пользователя произошла ошибка.");
+  //       }
+  //     });
+  // };
+
+  // const handleUpdateUser = (data) => {
+  //   setIsLoading(true);
+  //   mainApi
+  //     .editUserInfo(data, localStorage.token)
+  //     .then((userInfo) => {
+  //       setCurrentUser(userInfo);
+  //       setIsLoading(false);
+  //       setIsEdit(false);
+  //       setIsStatusPopupOpen(true);
+  //       setIsStatus(true);
+  //       setTextPopup("Данные успешно сохранены!");
+  //     })
+  //     .catch((err) => {
+  //       setIsLoading(false);
+  //       console.log(`Возникла ошибка: ${err}`);
+  //       if (err === CONFLICT) {
+  //         setStatus(CONFLICT_TEXT);
+  //       } else if (err === SERVER_ERROR) {
+  //         setStatus(SERVER_ERROR_TEXT);
+  //       } else {
+  //         setStatus("При обновлении профиля произошла ошибка.");
+  //       }
+  //     });
+  // };
 
   const handleSignOut = () => {
     mainApi
