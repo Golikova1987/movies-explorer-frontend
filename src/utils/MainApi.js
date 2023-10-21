@@ -1,4 +1,4 @@
-import { HEADERS, BASE_URL } from './constants.js';
+import { HEADERS, BASE_URL } from './constants';
 
 const checkResponse = (res) => {
   if (res.ok) {
