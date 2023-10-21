@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { BASE_URL_MOVIES_API } from "../../utils/constants";
 import "./MoviesCard.css";
@@ -51,9 +51,9 @@ const MoviesCard = ({
           : "movies__card movies__card_type_saved"
       }
     >
-      <Link
+      <a
         className="movies__link"
-        to={movie.trailerLink}
+        href={movie.trailerLink}
         target="_blank"
         rel="noreferrer"
       >
@@ -66,7 +66,7 @@ const MoviesCard = ({
           }
           alt={movie.nameRU}
         ></img>
-      </Link>
+      </a>
       {location.pathname === "/movies" ? (
         <Button
           className={`movies__button-save ${

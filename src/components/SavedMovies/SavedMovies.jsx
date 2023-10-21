@@ -26,17 +26,6 @@ const SavedMovies = ({
   const [nameError, setNameError] = useState("");
   const isSaveInLocalStorage = false;
 
-  // useEffect(() => {
-  //   localStorage.setItem("searchQuerySavedMovies", searchQuerySavedMovies);
-  // }, [searchQuerySavedMovies]);
-
-  // useEffect(() => {
-  //   localStorage.setItem(
-  //     "isShortFilmSavedMovies",
-  //     JSON.stringify(isCheckedSavedMovies)
-  //   );
-  // }, [isCheckedSavedMovies]);
-
   const handleSubmitSearchSavedMovies = (e) => {
     e.preventDefault();
     setNameError("");

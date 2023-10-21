@@ -1,5 +1,4 @@
-import { BASE_URL_MOVIES_API, HEADERS } from "./constants";
-// import { HEADERS, BASE_URL_MOVIES_API } from "./constants";
+import { BASE_URL_MOVIES_API } from "./constants";
 
 const checkResponse = (res) => {
     if (res.ok) {
@@ -11,6 +10,8 @@ const checkResponse = (res) => {
 export const getAllMovies = () => {
     return fetch(`${BASE_URL_MOVIES_API}/beatfilm-movies`, {
         method: 'GET',
-        headers: HEADERS,
+        headers: {
+            'Content-Type': 'application/json',
+        },
     }).then((res) => checkResponse(res));
 };

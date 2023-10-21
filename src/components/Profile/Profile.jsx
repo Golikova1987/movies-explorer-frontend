@@ -83,7 +83,7 @@ const Profile = ({
 
   const handleSubmitSave = (e) => {
     e.preventDefault();
-    handleUpdateUser(values.name, values.email);
+    handleUpdateUser({name: values.name, email:values.email});
   };
 
   return (

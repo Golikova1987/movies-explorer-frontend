@@ -50,7 +50,7 @@ const Login = ({ handleLogin, status, setStatus, isLoading }) => {
           handleLogin(values["auth-email"], values["auth-password"])
         }
         textButton="Войти"
-        textUnderButton="Ещё не зарегистрированы?"
+        textParagraph="Ещё не зарегистрированы?"
         textLink="Регистрация"
         path="/signup"
         isLoginForm={true}
@@ -59,10 +59,10 @@ const Login = ({ handleLogin, status, setStatus, isLoading }) => {
         isLoading={isLoading}
       >
         <Input
-          classNameInput={`form__input ${
-            errors["auth-email"] && "form__input_type_error"
+          classNameInput={`auth-form__input ${
+            errors["auth-email"] && "auth-form__input_type_error"
           }`}
-          classNameLabel="form__label"
+          classNameLabel="auth-form__label"
           type="email"
           name="auth-email"
           placeholder="E-mail"
@@ -71,13 +71,13 @@ const Login = ({ handleLogin, status, setStatus, isLoading }) => {
           value={values["auth-email"]}
           onChange={(e) => handleChange(e)}
         >
-          <span className="form__input-error">{errors["auth-email"]}</span>
+          <span className="auth-form__input-error">{errors["auth-email"]}</span>
         </Input>
         <Input
-          classNameInput={`form__input ${
-            errors["auth-password"] && "form__input_type_error"
+          classNameInput={`auth-form__input ${
+            errors["auth-password"] && "auth-form__input_type_error"
           }`}
-          classNameLabel="form__label"
+          classNameLabel="auth-form__label"
           type="password"
           name="auth-password"
           placeholder="Пароль"
@@ -86,7 +86,7 @@ const Login = ({ handleLogin, status, setStatus, isLoading }) => {
           value={values["auth-password"]}
           onChange={(e) => handleChange(e)}
         >
-          <span className="form__input-error">
+          <span className="auth-form__input-error">
             {errors["auth-password"]}
           </span>
         </Input>

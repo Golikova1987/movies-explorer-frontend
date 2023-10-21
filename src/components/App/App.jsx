@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
@@ -22,14 +23,12 @@ import {
 import { ProtectedRouteElementForUnauthorizedUser } from "../Routes/Routes";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
-const App = () => {
+function App() {
+
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    JSON.parse(localStorage.getItem("isLoggedIn")) || false
-  );
-  
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoadingMovies, setIsLoadingMovies] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingSavedMovies, setIsLoadingSavedMovies] = useState(false);
@@ -48,26 +47,53 @@ const App = () => {
   const [isSearchMovies, setIsSearchMovies] = useState(false);
   const [isSearchSavedMovies, setIsSearchSavedMovies] = useState(false);
 
-  const checkUser = () => {
-    mainApi
-      .getUserInfo()
-      .then((res) => {
-        if (res) {
+  useEffect(() => {
+
+    if (localStorage.token) {
+      Promise.all([mainApi.getUserInfo(localStorage.token), mainApi.getMovies(localStorage.token)])
+        .then(([dataInfo, dataMovies]) => {
+          setCurrentUser(dataInfo);
+          setSavedMovies(dataMovies);
           setIsLoggedIn(true);
-          localStorage.setItem("isLoggedIn", JSON.stringify(true));
-          setCurrentUser(res);
-        } else {
-          setIsLoggedIn(false);
-        }
-      })
-      .catch((err) => console.log(`Возникла ошибка: ${err}`));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [isLoggedIn]);
+
+
+  ////////////////
+
+  useEffect(() => {
+    checkUser();
+  }, []);
+
+  const checkUser = () => {
+    const jwt = localStorage.getItem("token");
+
+    if (jwt)
+      mainApi
+        .checkUser(jwt)
+        .then((res) => {
+          if (res) {
+            setIsLoggedIn(true);
+            setCurrentUser(res);
+          } else {
+            setIsLoggedIn(false);
+          }
+        })
+        .catch((err) => console.log(`Возникла ошибка: ${err}`));
   };
 
   useEffect(() => {
     setIsLoadingMovies(true);
     if (isLoggedIn) {
-      Promise.all([moviesApi.getAllMovies(), mainApi.getMovies()])
-        .then(([movies, savedMovies]) => {
+      moviesApi.getAllMovies()
+        .then((movies) => {
           setMovies(movies);
           setSavedMovies(savedMovies);
           setFilteredSavedMovies(savedMovies);
@@ -80,9 +106,7 @@ const App = () => {
     }
   }, [isLoggedIn]);
 
-  useEffect(() => {
-    checkUser();
-  }, [isLoggedIn]);
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -94,9 +118,9 @@ const App = () => {
     setIsLoading(true);
     mainApi
       .login(email, password)
-      .then(() => {
+      .then((res) => {
         setIsLoggedIn(true);
-        localStorage.setItem("isLoggedIn", JSON.stringify(true));
+        localStorage.setItem("token", res.token);
         navigate("/movies");
         setIsLoading(false);
         setIsStatusPopupOpen(true);
@@ -121,8 +145,10 @@ const App = () => {
     setIsStatus(true);
     mainApi
       .register(name, email, password)
-      .then(() => {
-        handleLogin(email, password);
+      .then((res) => {
+        if (res)
+          handleLogin(email, password);
+        setIsLoggedIn(false)
         setIsLoading(false);
         setIsStatusPopupOpen(true);
         setIsStatus(true);
@@ -141,12 +167,12 @@ const App = () => {
       });
   };
 
-  const handleUpdateUser = (name, email) => {
+  const handleUpdateUser = (data) => {
     setIsLoading(true);
     mainApi
-      .editUserInfo(name, email)
-      .then((userInfo) => {
-        setCurrentUser(userInfo);
+      .editUserInfo(data, localStorage.token)
+      .then((res) => {
+        setCurrentUser(res);
         setIsLoading(false);
         setIsEdit(false);
         setIsStatusPopupOpen(true);
@@ -167,27 +193,11 @@ const App = () => {
   };
 
   const handleSignOut = () => {
-    mainApi
-      .deleteCookies()
-      .then((res) => {
-        if (res) {
-          setIsLoggedIn(false);
-          navigate("/");
-          localStorage.clear();
-          setFilteredMovies([]);
-          setIsSearchMovies(false);
-        }
-      })
-      .catch((err) => console.log(`Возникла ошибка: ${err}`));
+    localStorage.clear();
+    setIsLoggedIn(false);
+    navigate("/");
   };
 
-  // const handleSignOut = () => {
-  //   localStorage.clear();
-  //   setIsLoggedIn(false);
-  //   navigate("/");
-  //   // setFilteredMovies([]);
-  //   // setIsSearchMovies(false);
-  // };
 
   const handleCreateMovie = (
     country,
@@ -216,7 +226,8 @@ const App = () => {
         thumbnail,
         nameRU,
         nameEN,
-        movieId
+        movieId,
+        localStorage.token
       )
       .then((newSavedMovie) => {
         setIsLoadingMovies(true);
@@ -233,7 +244,7 @@ const App = () => {
   const handleDeleteMovie = (id, setIsSave) => {
     setIsLoadingMovies(true);
     mainApi
-      .deleteMovie(id)
+      .deleteMovie(id, localStorage.token)
       .then(() => {
         setIsLoadingMovies(true);
         setIsSave(false);
