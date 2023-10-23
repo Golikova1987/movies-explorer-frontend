@@ -9,3 +9,6 @@ IP 84.201.161.113
 frontend https://explorer.movies.nomoredomainsrocks.ru
 
 backend  https://api.explorer.movies.nomoredomainsrocks.ru
+
+ссылка на pull-request:
+https://github.com/Golikova1987/movies-explorer-frontend/pull/2
