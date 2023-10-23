@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 
-export const ProtectedRouteElementForUnauthorizedUser = ({
+export const ProtectedRoute = ({
   isLoggedIn,
   element,
 }) => {

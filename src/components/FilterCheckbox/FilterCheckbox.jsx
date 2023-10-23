@@ -1,11 +1,11 @@
 import "./FilterCheckbox.css";
-import Input from "../Inputs/Input";
+import Input from "../Input/Input";
 
-const FilterCheckbox = ({ isChecked, setCheckbox, name }) => {
+export default function FilterCheckbox({ name, isChecked, setCheckbox }) {
   return (
     <Input
-      classNameLabel="search__label-switch"
-      classNameInput="search__input-checkbox"
+      classNameLabel="search-form__label-switch"
+      classNameInput="search-form__input-checkbox"
       type="checkbox"
       name={name}
       tabIndex="0"
@@ -15,6 +15,4 @@ const FilterCheckbox = ({ isChecked, setCheckbox, name }) => {
       <span className="search__slider"></span>
     </Input>
   );
-};
-
-export default FilterCheckbox;
+}

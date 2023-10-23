@@ -1,10 +1,11 @@
 import { BASE_URL } from './constants';
 
+//проверка результата
 const checkResponse = (res) => {
   if (res.ok) {
       return res.json();
   }
-  return Promise.reject(res.status);
+  return Promise.reject(res.error);
 };
 
 export const register = (name, email, password) => {
@@ -23,7 +24,6 @@ export const register = (name, email, password) => {
 export const login = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
-    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -33,10 +33,10 @@ export const login = (email, password) => {
     .then((res) => checkResponse(res));
 };
 
-export const checkUser = (token) => {
+//возвращает токен пользователя
+export const checkToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
-    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -46,12 +46,10 @@ export const checkUser = (token) => {
     .then((res) => checkResponse(res));
 };
 
-//////////////////////////
-
+// получаем информарцию о пользователе
 export const getUserInfo = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
@@ -60,10 +58,10 @@ export const getUserInfo = (token) => {
     .then((res) => checkResponse(res));
 };
 
-export const getMovies = (token) => {
+//возвращает сохраненные фильмы
+export const getSavedMovies = (token) => {
   return fetch(`${BASE_URL}/movies`, {
       method: 'GET',
-      credentials: 'include',
       headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -71,10 +69,10 @@ export const getMovies = (token) => {
   }).then((res) => checkResponse(res));
 };
 
+//изменяет данные пользователя
 export const editUserInfo = (data, token) => {
   return fetch(`${BASE_URL}/users/me/`, {
     method: "PATCH",
-    credentials: 'include',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -86,10 +84,10 @@ export const editUserInfo = (data, token) => {
   }).then(checkResponse);
 };
 
+//удаляет фильм
 export const deleteMovie = (id, token) => {
   return fetch(`${BASE_URL}/movies/${id}`, {
       method: 'DELETE',
-      credentials: 'include',
       headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -100,7 +98,6 @@ export const deleteMovie = (id, token) => {
 export const createMovie = (country, director, duration, year, description, image, trailerLink, thumbnail, nameRU, nameEN, movieId, token) => {
 return fetch(`${BASE_URL}/movies`, {
     method: 'POST',
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,

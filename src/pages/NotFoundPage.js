@@ -1,6 +1,6 @@
 import NotFound from '../components/NotFound/NotFound';
 
-const NotFoundPage = () => {
+function NotFoundPage() {
     return (
         <NotFound />
     );

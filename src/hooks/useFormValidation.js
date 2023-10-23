@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from 'react';
 
-const useFormWithValidation = (initialValues, validationRules) => {
+const useFormValidation = (initialValues, validationRules) => {
     const [values, setValues] = useState(initialValues || {});
     const [errors, setErrors] = useState({});
     const [isValid, setIsValid] = useState(false);
@@ -48,4 +48,4 @@ const useFormWithValidation = (initialValues, validationRules) => {
     return { values, handleChange, errors, isValid, resetForm };
 };
 
-export default useFormWithValidation;
+export default useFormValidation;

@@ -1,16 +1,16 @@
-.search__label-switch {
+.search-form__label-switch {
   position: relative;
   display: inline-block;
   width: 34px;
   height: 14px;
 }
 
-.search__label-switch:hover {
+.search-form__label-switch:hover {
   cursor: pointer;
   opacity: 0.8;
 }
 
-.search__input-checkbox {
+.search-form__input-checkbox {
   display: none;
 }
 
@@ -40,15 +40,15 @@
   border-radius: 50%;
 }
 
-.search__input-checkbox:checked + .search__slider {
+.search-form__input-checkbox:checked + .search__slider {
   background-color: rgba(43, 224, 128, 1);
 }
 
-.search__input-checkbox:focus + .search__slider {
+.search-form__input-checkbox:focus + .search__slider {
   box-shadow: 0 0 1px #2196f3;
 }
 
-.search__input-checkbox:checked + .search__slider:before {
+.search-form__input-checkbox:checked + .search__slider:before {
   -webkit-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);

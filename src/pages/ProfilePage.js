@@ -1,23 +1,23 @@
 import Header from '../components/Header/Header';
 import Profile from '../components/Profile/Profile';
 
-const ProfilePage = ({
+function ProfilePage({
     isLoggedIn,
-    handleSignOut,
-    status,
-    setStatus,
+    handleLogout,
+    error,
+    setError,
     isLoading,
     handleUpdateUser,
     isEdit,
     setIsEdit,
-}) => {
+}) {
     return (
         <>
             <Header isLoggedIn={isLoggedIn} />
             <Profile
-                handleSignOut={handleSignOut}
-                status={status}
-                setStatus={setStatus}
+                handleLogout={handleLogout}
+                error={error}
+                setError={setError}
                 isLoading={isLoading}
                 handleUpdateUser={handleUpdateUser}
                 isEdit={isEdit}

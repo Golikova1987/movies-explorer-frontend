@@ -1,8 +1,8 @@
 import Login from '../components/Login/Login';
 
-const LoginPage = ({ handleLogin, status, setStatus, isLoading }) => {
+function LoginPage({ handleLogin, error, setError, isLoading }) {
     return (
-        <Login handleLogin={handleLogin} status={status} setStatus={setStatus} isLoading={isLoading} />
+        <Login handleLogin={handleLogin} error={error} setError={setError} isLoading={isLoading} />
     );
 };
 

@@ -1,24 +1,24 @@
 import { Link } from "react-router-dom";
 import "./AuthForm.css";
-import Form from "../Forms/Form";
-import Button from "../Buttons/Button";
+import Form from "../Form/Form";
+import Button from "../Button/Button";
 import logo from "../../images/logo.svg";
 
 export default function AuthForm({
   title,
   name,
-  onSubmit,
-  children,
-  textButton,
   textLink,
   textUnderButton,
+  onSubmit,
+  children,
+  isLoading,
+  textButton,
   path,
-  isLoginForm,
+  isFormLogin,
   isValid,
   isValidLogin,
-  status,
-  statusLogin,
-  isLoading,
+  error,
+  errorLogin,
 }) {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,23 +39,23 @@ export default function AuthForm({
         {children}
         <div
           className={`form__container ${
-            isLoginForm ? "form__container_type_login" : ""
+            isFormLogin ? "form__container_type_login" : ""
           }`}
         >
           <p
             className={`form__error ${
-              isLoginForm ? "form__error_type_login" : ""
+              isFormLogin ? "form__error_type_login" : ""
             }`}
           >
-            {isLoginForm ? statusLogin : status}
+            {isFormLogin ? errorLogin : error}
           </p>
           <Button
             className={`form__button ${
-              isLoginForm ? "form__button_type_login" : ""
+              isFormLogin ? "form__button_type_login" : ""
             }`}
             type="submit"
             text={textButton}
-            disabled={(isLoginForm ? !isValidLogin : !isValid) || isLoading}
+            disabled={(isFormLogin ? !isValidLogin : !isValid) || isLoading}
           />
           <p className="form__text">
             {textUnderButton}{" "}

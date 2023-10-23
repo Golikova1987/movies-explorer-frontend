@@ -2,7 +2,7 @@ import SavedMovies from '../components/SavedMovies/SavedMovies';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 
-const SavedMoviesPage = ({
+function SavedMoviesPage ({
     isLoggedIn,
     savedMovies,
     setFilteredSavedMovies,
@@ -13,7 +13,7 @@ const SavedMoviesPage = ({
     isLoadingSavedMovies,
     setIsLoadingSavedMovies,
     isLoadingMovies,
-}) => {
+}) {
     return (
         <>
             <Header isLoggedIn={isLoggedIn} />

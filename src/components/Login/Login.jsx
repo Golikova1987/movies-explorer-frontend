@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import AuthForm from "../AuthForm/AuthForm";
-import Input from "../Inputs/Input";
-import useFormWithValidation from "../../hooks/useFormWithValidation";
+import Input from "../Input/Input";
+import useFormValidation from "../../hooks/useFormValidation";
 
-const Login = ({ handleLogin, status, setStatus, isLoading }) => {
+export default function Login({ handleLogin, error, setError, isLoading }) {
   const initialValues = {
     "auth-email": "",
     "auth-password": "",
@@ -30,14 +30,14 @@ const Login = ({ handleLogin, status, setStatus, isLoading }) => {
     ],
   };
 
-  const { values, handleChange, errors, isValid } = useFormWithValidation(
+  const { handleChange, values, errors, isValid } = useFormValidation(
     initialValues,
     validationRules
   );
 
   useEffect(() => {
     return () => {
-      setStatus("");
+      setError("");
     };
   }, []);
 
@@ -45,24 +45,24 @@ const Login = ({ handleLogin, status, setStatus, isLoading }) => {
     <main>
       <AuthForm
         title="Рады видеть!"
-        name="auth-log"
+        name="login"
         onSubmit={() =>
           handleLogin(values["auth-email"], values["auth-password"])
         }
         textButton="Войти"
-        textParagraph="Ещё не зарегистрированы?"
+        textUnderButton="Ещё не зарегистрированы?"
         textLink="Регистрация"
         path="/signup"
-        isLoginForm={true}
+        isFormLogin={true}
         isValidLogin={isValid}
-        statusLogin={status}
+        errorLogin={error}
         isLoading={isLoading}
       >
         <Input
-          classNameInput={`auth-form__input ${
-            errors["auth-email"] && "auth-form__input_type_error"
+          classNameInput={`form__input ${
+            errors["auth-email"] && "form__input_type_error"
           }`}
-          classNameLabel="auth-form__label"
+          classNameLabel="form__label"
           type="email"
           name="auth-email"
           placeholder="E-mail"
@@ -71,13 +71,13 @@ const Login = ({ handleLogin, status, setStatus, isLoading }) => {
           value={values["auth-email"]}
           onChange={(e) => handleChange(e)}
         >
-          <span className="auth-form__input-error">{errors["auth-email"]}</span>
+          <span className="form__input-error">{errors["auth-email"]}</span>
         </Input>
         <Input
-          classNameInput={`auth-form__input ${
-            errors["auth-password"] && "auth-form__input_type_error"
+          classNameInput={`form__input ${
+            errors["auth-password"] && "form__input_type_error"
           }`}
-          classNameLabel="auth-form__label"
+          classNameLabel="form__label"
           type="password"
           name="auth-password"
           placeholder="Пароль"
@@ -86,13 +86,11 @@ const Login = ({ handleLogin, status, setStatus, isLoading }) => {
           value={values["auth-password"]}
           onChange={(e) => handleChange(e)}
         >
-          <span className="auth-form__input-error">
+          <span className="form__input-error">
             {errors["auth-password"]}
           </span>
         </Input>
       </AuthForm>
     </main>
   );
-};
-
-export default Login;
+}

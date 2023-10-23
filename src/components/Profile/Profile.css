@@ -1,19 +1,19 @@
 .profile {
+  min-height: calc(100vh - 74px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 122px;
-  min-height: calc(100vh - 74px);
 }
 
-.profile__welcome {
-  margin: 0;
-  padding-top: 74px;
-  text-align: center;
+.profile__title {
   font-size: 24px;
   font-weight: 500;
   line-height: normal;
+  margin: 0;
+  padding-top: 74px;
+  text-align: center;
 }
 
 .profile__form {
@@ -26,7 +26,7 @@
   gap: 189px;
 }
 
-.profile__container-inputs {
+.profile__inputs {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -50,12 +50,12 @@
 }
 
 .profile__label {
-  width: 410px;
-  display: flex;
-  justify-content: space-between;
   font-size: 11px;
   font-weight: 500;
   line-height: normal;
+  width: 410px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .profile__label_type_name {
@@ -67,14 +67,14 @@
   padding-top: 16px;
 }
 
-.profile__container-btns {
+.profile__buttons {
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding-bottom: 70px;
 }
 
-.profile__container-btns_type_save {
+.profile__buttons_type_save {
   gap: 20px;
 }
 
@@ -104,14 +104,14 @@
 
 .profile__button_type_save {
   box-sizing: border-box;
-  width: 410px;
-  height: 45px;
-  border-radius: 3px;
   background-color: #000;
   font-size: 14px;
   font-weight: 500;
   line-height: normal;
   color: #fff;
+  width: 410px;
+  height: 45px;
+  border-radius: 3px;
 }
 
 .profile__button_type_save:disabled {
@@ -128,7 +128,7 @@
     gap: 97px;
   }
 
-  .profile__welcome {
+  .profile__title {
     padding-top: 235px;
   }
 
@@ -140,7 +140,7 @@
     gap: 178px;
   }
 
-  .profile__container-btns {
+  .profile__buttons {
     padding-bottom: 269px;
   }
 }
@@ -150,7 +150,7 @@
     gap: 79px;
   }
 
-  .profile__welcome {
+  .profile__title {
     padding-top: 70px;
   }
 
@@ -166,7 +166,7 @@
     width: calc(260px + (410 - 260) * (100vw - 320px) / (767 - 320));
   }
 
-  .profile__container-btns {
+  .profile__buttons {
     padding: 374px 0 40px;
   }
 

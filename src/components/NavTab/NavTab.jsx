@@ -1,9 +1,9 @@
 import React from "react";
-import './NavPage.css';
+import './NavTab.css';
 import { Link } from 'react-scroll';
 
 
-export default function NavPage() {
+export default function NavTab() {
   return (
     <nav className="nav-tab">
       <ul className="nav-tab__list">

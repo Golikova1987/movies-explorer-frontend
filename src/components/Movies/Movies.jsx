@@ -1,5 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
+import SearchForm from "../SearchForm/SearchForm";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import { validateSearch } from "../../utils/filterData";
+import { handleCheckboxChange } from '../../utils/filterData';
+import useWidthResize from "../../hooks/useWidthResize";
 import {
   DESKTOP,
   AMOUNT_CARDS_FOR_DESKTOP,
@@ -10,24 +15,20 @@ import {
   AMOUNT_CARDS_FOR_MOBILE,
   ROW_OF_CARDS_FOR_MOBILE,
 } from "../../utils/constants.js";
-import useResizeWidth from "../../hooks/useResizeWidth";
-import SearchForm from "../SearchForm/SearchForm";
-import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import { validateSearch, handleCheckboxChange } from "../../utils/filterData";
 
-const Movies = ({
+export default function Movies ({
+  isLoading,
+  isLoadingMovies,
   movies,
-  filteredMovies,
   handleCreateMovie,
   savedMovies,
   handleDeleteMovie,
   setFilteredMovies,
   isSearchMovies,
   setIsSearchMovies,
-  isLoading,
-  isLoadingMovies,
-}) => {
-  const windowWidth = useResizeWidth();
+  filteredMovies,
+}) {
+  const windowWidth = useWidthResize();
 
   const [searchQueryFilteredMovies, setSearchQueryFilteredMovies] = useState(
     localStorage.getItem("searchQueryFilteredMovies") || ""
@@ -38,7 +39,7 @@ const Movies = ({
   const [nameError, setNameError] = useState("");
   const isSaveInLocalStorage = true;
 
-  const handleSubmitSearchFilteredMovies = (e) => {
+  function handleSubmitSearchFilteredMovies(e) {
     e.preventDefault();
     setNameError("");
     setIsSearchMovies(true);
@@ -55,7 +56,7 @@ const Movies = ({
     );
   };
 
-  const handleCheckboxChangeFilteredMovies = (isChecked) => {
+  function handleCheckboxChangeFilteredMovies(isChecked) {
     handleCheckboxChange(
       isSaveInLocalStorage,
       "searchQueryFilteredMovies",
@@ -72,7 +73,7 @@ const Movies = ({
   const isDesktop = windowWidth >= DESKTOP;
   const isMobile = windowWidth <= MOBILE;
 
-  const calculateCardCount = () => {
+  function calculateCardCount() {
     if (isMobile) {
       if (filteredMovies.length <= AMOUNT_CARDS_FOR_MOBILE) {
         return filteredMovies.length;
@@ -94,7 +95,7 @@ const Movies = ({
     }
   };
 
-  const calculateCardCountStep = () => {
+  function calculateCardCountStep() {
     if (isMobile) {
       return ROW_OF_CARDS_FOR_MOBILE;
     } else if (isDesktop) {
@@ -124,24 +125,22 @@ const Movies = ({
     }
   }, [cardsToShow]);
 
-  const handleShowCards = () => {
+  function handleShowCards() {
     setVisibleCardsCount(visibleCardsCount + cardsToShow);
   };
 
   return (
     <main>
       <SearchForm
-        name="search-form-movies"
-        handleSubmitSearchFilteredMovies={handleSubmitSearchFilteredMovies}
-        handleCheckboxChangeFilteredMovies={handleCheckboxChangeFilteredMovies}
+        name="search-movies"
         nameError={nameError}
         setSearchQueryFilteredMovies={setSearchQueryFilteredMovies}
         searchQueryFilteredMovies={searchQueryFilteredMovies}
         isCheckedFilteredMovies={isCheckedFilteredMovies}
+        handleSubmitSearchFilteredMovies={handleSubmitSearchFilteredMovies}
+        handleCheckboxChangeFilteredMovies={handleCheckboxChangeFilteredMovies}
       />
       <MoviesCardList
-        filteredMovies={filteredMovies}
-        setFilteredMovies={setFilteredMovies}
         handleCreateMovie={handleCreateMovie}
         savedMovies={savedMovies}
         handleDeleteMovie={handleDeleteMovie}
@@ -150,9 +149,9 @@ const Movies = ({
         isLoading={isLoading}
         visibleCardsCount={visibleCardsCount}
         isLoadingMovies={isLoadingMovies}
+        filteredMovies={filteredMovies}
+        setFilteredMovies={setFilteredMovies}
       />
     </main>
   );
-};
-
-export default Movies;
+}

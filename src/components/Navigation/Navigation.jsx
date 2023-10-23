@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import Button from "../Buttons/Button";
+import Button from "../Button/Button";
 
-const Navigation = () => {
+export default function Navigation() {
   const [isOpenBurger, setIsOpenBurger] = useState(false);
   const location = useLocation();
 
@@ -15,33 +15,33 @@ const Navigation = () => {
       ? "header__link header__link_type_auth header__link_type_profile header__link_active"
       : "header__link header__link_type_auth header__link_type_profile";
 
-  const handleOpenBurger = () => {
+  function handleOpenBurger() {
     setIsOpenBurger(true);
   };
 
-  const handleCloseBurger = () => {
+  function handleCloseBurger() {
     setIsOpenBurger(false);
   };
 
   return (
     <>
       <Button
-        className="header__burger"
+        className="header__button-burger"
         type="button"
         onClick={handleOpenBurger}
       />
       <nav
-        className={`header__nav-mobile ${
-          isOpenBurger ? "header__nav-mobile_active" : ""
+        className={`header__mobile ${
+          isOpenBurger ? "header__mobile_active" : ""
         }`}
       >
-        <div className="header__container-mobile">
+        <div className="header__mobile-container">
           <Button
-            className="header__burger-exit"
+            className="header__button-exit"
             type="button"
             onClick={handleCloseBurger}
           />
-          <ul className="header__list-mobile">
+          <ul className="header__mobile-list">
             <li>
               <NavLink className={setActive} to="/">
                 Главная
@@ -58,7 +58,7 @@ const Navigation = () => {
               </NavLink>
             </li>
           </ul>
-          <div className="header__container-link header__container-link_type_mobile">
+          <div className="header__link-profile header__link-profile_type_mobile">
             <NavLink className={setProfile} to="/profile">
               Аккаунт
             </NavLink>
@@ -66,7 +66,7 @@ const Navigation = () => {
           </div>
         </div>
       </nav>
-      <nav className="header__nav-desktop">
+      <nav className="header__desktop">
         <ul className="header__list header__list_type_auth">
           <li>
             <NavLink className={setActive} to="/movies">
@@ -78,7 +78,7 @@ const Navigation = () => {
               Сохраненные фильмы
             </NavLink>
           </li>
-          <li className="header__container-link">
+          <li className="header__link-profile">
             <NavLink className={setActive} to="/profile">
               Аккаунт
             </NavLink>
@@ -94,6 +94,4 @@ const Navigation = () => {
       </nav>
     </>
   );
-};
-
-export default Navigation;
+}

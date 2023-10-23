@@ -1,28 +1,28 @@
 import { useEffect, useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
-import useFormWithValidation from "../../hooks/useFormWithValidation";
+import useFormValidation from "../../hooks/useFormValidation";
 import "./Profile.css";
-import Form from "../Forms/Form";
-import Input from "../Inputs/Input";
-import Button from "../Buttons/Button";
+import Form from "../Form/Form";
+import Input from "../Input/Input";
+import Button from "../Button/Button";
 
-const Profile = ({
-  handleSignOut,
-  status,
-  setStatus,
+export default function Profile({
+  handleLogout,
+  error,
+  setError,
   isLoading,
   handleUpdateUser,
   isEdit,
   setIsEdit,
-}) => {
+}) {
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     return () => {
-      setStatus("");
+      setError("");
       setIsEdit(false);
     };
-  }, [setStatus, setIsEdit]);
+  }, [setError, setIsEdit]);
 
   const initialValues = {
     name: currentUser.name || "",
@@ -58,9 +58,9 @@ const Profile = ({
     ],
   };
 
-  const { values, handleChange, errors, resetForm } = useFormWithValidation(
-    initialValues,
-    validationRules
+  const { handleChange, values, errors, resetForm } = useFormValidation(
+    validationRules,
+    initialValues
   );
 
   useEffect(() => {
@@ -76,20 +76,20 @@ const Profile = ({
     }
   }, [currentUser, resetForm]);
 
-  const handleSubmitEdit = (e) => {
+  function handleSubmitSave(e) {
     e.preventDefault();
-    setIsEdit(true);
+    handleUpdateUser({ name: values.name, email: values.email });
   };
 
-  const handleSubmitSave = (e) => {
+  function handleSubmitEdit(e) {
     e.preventDefault();
-    handleUpdateUser({name: values.name, email:values.email});
+    setIsEdit(true);
   };
 
   return (
     <main>
       <section className="profile">
-        <h1 className="profile__welcome">{`Привет, ${
+        <h1 className="profile__title">{`Привет, ${
           currentUser.name || "Пользователь"
         }!`}</h1>
         <Form
@@ -97,7 +97,7 @@ const Profile = ({
           name="profile"
           onSubmit={isEdit ? handleSubmitSave : handleSubmitEdit}
         >
-          <div className="profile__container-inputs">
+          <div className="profile__inputs">
             <span className="profile__input-error profile__input-error_type_name">
               {errors.name}
             </span>
@@ -134,13 +134,13 @@ const Profile = ({
             </span>
           </div>
           <div
-            className={`profile__container-btns ${
-              isEdit ? "profile__container-btns_type_save" : ""
+            className={`profile__buttons ${
+              isEdit ? "profile__buttons_type_save" : ""
             }`}
           >
             {isEdit ? (
               <>
-                <p className="profile__error">{status}</p>
+                <p className="profile__error">{error}</p>
                 <Button
                   className="profile__button profile__button_type_save"
                   type="submit"
@@ -166,7 +166,7 @@ const Profile = ({
                   className="profile__button profile__button_type_logout"
                   type="button"
                   text="Выйти из аккаунта"
-                  onClick={handleSignOut}
+                  onClick={handleLogout}
                 />
               </>
             )}
@@ -175,6 +175,4 @@ const Profile = ({
       </section>
     </main>
   );
-};
-
-export default Profile;
+}

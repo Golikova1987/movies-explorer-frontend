@@ -1,83 +1,87 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
+
 import MainPage from "../../pages/MainPage";
-import CurrentUserContext from "../../contexts/CurrentUserContext";
 import MoviesPage from "../../pages/MoviesPage";
 import RegisterPage from "../../pages/RegisterPage";
 import LoginPage from "../../pages/LoginPage";
 import NotFoundPage from "../../pages/NotFoundPage";
 import SavedMoviesPage from "../../pages/SavedMoviesPage";
 import ProfilePage from "../../pages/ProfilePage";
+import InfoPopup from "../InfoPopup/InfoPopup";
+
+import CurrentUserContext from "../../contexts/CurrentUserContext";
+import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute";
 import * as mainApi from "../../utils/MainApi";
 import * as moviesApi from "../../utils/MoviesApi";
+
 import {
-  CONFLICT,
-  SERVER_ERROR,
   UNAUTHORIZED,
-  SERVER_ERROR_TEXT,
-  CONFLICT_TEXT,
   UNAUTHORIZED_TEXT,
+  CONFLICT,
+  CONFLICT_TEXT,
+  SERVER_ERROR,
+  SERVER_ERROR_TEXT,
 } from "../../utils/errors";
-import { ProtectedRouteElementForUnauthorizedUser } from "../Routes/Routes";
-import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
-function App() {
-
+export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoadingMovies, setIsLoadingMovies] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingSavedMovies, setIsLoadingSavedMovies] = useState(false);
-  const [isStatusPopupOpen, setIsStatusPopupOpen] = useState(false);
-  const [isStatus, setIsStatus] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); //состояние авторизации пользователя
+  const [isLoading, setIsLoading] = useState(false); //индикатор загрузки профиль логин регист
+  const [isLoadingSavedMovies, setIsLoadingSavedMovies] = useState(false); //индикатор загрузки сохраненных фильмов
+  const [isLoadingMovies, setIsLoadingMovies] = useState(false); //индикатор загрузки фильмов
+  const [isSuccessPopup, setIsSuccessPopup] = useState(false); //попап успеха сохранения данных
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState("");
   const [isEdit, setIsEdit] = useState(false);
-  const [textPopup, setTextPopup] = useState("");
-  const [status, setStatus] = useState("");
-  const [currentUser, setCurrentUser] = useState({});
+  const [successPopupText, setSuccessPopupText] = useState("");// текст попапа успешного сохранения и изменения
+  const [currentUser, setCurrentUser] = useState({}); //получение данных
   const [movies, setMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]); //массив сохраненных фильмов
+  const [isSearchMovies, setIsSearchMovies] = useState(false);
+  const [isSearchSavedMovies, setIsSearchSavedMovies] = useState(false);
   const [filteredMovies, setFilteredMovies] = useState(
     JSON.parse(localStorage.getItem("filteredMovies")) || []
   );
-  const [savedMovies, setSavedMovies] = useState([]);
   const [filteredSavedMovies, setFilteredSavedMovies] = useState([]);
-  const [isSearchMovies, setIsSearchMovies] = useState(false);
-  const [isSearchSavedMovies, setIsSearchSavedMovies] = useState(false);
 
+  // загрузка сохраненных фильмов и профиля пользователя
   useEffect(() => {
-
     if (localStorage.token) {
-      Promise.all([mainApi.getUserInfo(localStorage.token), mainApi.getMovies(localStorage.token)])
-        .then(([dataInfo, dataMovies]) => {
-          setCurrentUser(dataInfo);
+      Promise.all([
+        mainApi.getUserInfo(localStorage.token),
+        mainApi.getSavedMovies(localStorage.token),
+      ])
+        .then(([userInfo, dataMovies]) => {
+          setCurrentUser(userInfo);
           setSavedMovies(dataMovies);
           setIsLoggedIn(true);
         })
         .catch((err) => {
           console.log(err);
         });
-
     } else {
       setIsLoggedIn(false);
     }
   }, [isLoggedIn]);
 
-
-  ////////////////
-
+  //проверка токена каждый раз при открытии страницы
   useEffect(() => {
-    checkUser();
+    handleCheckUser();
   }, []);
 
-  const checkUser = () => {
+  //проверка токена пользователя
+  function handleCheckUser() {
     const jwt = localStorage.getItem("token");
 
     if (jwt)
       mainApi
-        .checkUser(jwt)
+        .checkToken(jwt)
         .then((res) => {
           if (res) {
             setIsLoggedIn(true);
@@ -86,13 +90,14 @@ function App() {
             setIsLoggedIn(false);
           }
         })
-        .catch((err) => console.log(`Возникла ошибка: ${err}`));
+        .catch((err) => console.log(`Ошибка при проверке токена: ${err}`));
   };
 
   useEffect(() => {
     setIsLoadingMovies(true);
     if (isLoggedIn) {
-      moviesApi.getAllMovies()
+      moviesApi
+        .getAllMovies()
         .then((movies) => {
           setMovies(movies);
           setSavedMovies(savedMovies);
@@ -106,15 +111,13 @@ function App() {
     }
   }, [isLoggedIn]);
 
-
-
   useEffect(() => {
     setTimeout(() => {
-      setIsStatusPopupOpen(false);
+      setIsSuccessPopup(false);
     }, 2000);
-  }, [isStatusPopupOpen]);
+  }, [isSuccessPopup]);
 
-  const handleLogin = (email, password) => {
+  function handleLogin(email, password) {
     setIsLoading(true);
     mainApi
       .login(email, password)
@@ -123,51 +126,51 @@ function App() {
         localStorage.setItem("token", res.token);
         navigate("/movies");
         setIsLoading(false);
-        setIsStatusPopupOpen(true);
-        setIsStatus(true);
-        setTextPopup("Успешный вход в аккаунт. Добро пожаловать!");
+        setIsSuccessPopup(true);
+        setIsError(true);
+        setSuccessPopupText("Успешный вход в аккаунт. Добро пожаловать!");
       })
       .catch((err) => {
         setIsLoading(false);
         console.log(`Возникла ошибка: ${err}`);
         if (err === UNAUTHORIZED) {
-          setStatus(UNAUTHORIZED_TEXT);
+          setError(UNAUTHORIZED_TEXT);
         } else if (err === SERVER_ERROR) {
-          setStatus(SERVER_ERROR_TEXT);
+          setError(SERVER_ERROR_TEXT);
         } else {
-          setStatus("При авторизации произошла ошибка.");
+          setError("При авторизации произошла ошибка.");
         }
       });
   };
 
-  const handleRegister = (name, email, password) => {
+  function handleRegister(name, email, password) {
     setIsLoading(true);
-    setIsStatus(true);
+    setIsError(true);
     mainApi
       .register(name, email, password)
       .then((res) => {
-        if (res)
-          handleLogin(email, password);
-        setIsLoggedIn(false)
+        if (res) handleLogin(email, password);
+        setIsLoggedIn(false);
         setIsLoading(false);
-        setIsStatusPopupOpen(true);
-        setIsStatus(true);
-        setTextPopup("Регистрация прошла успешно. Добро пожаловать!");
+        setIsSuccessPopup(true);
+        setIsError(true);
+        setSuccessPopupText("Регистрация прошла успешно. Добро пожаловать!");
       })
       .catch((err) => {
         setIsLoading(false);
         console.log(`Возникла ошибка: ${err}`);
         if (err === CONFLICT) {
-          setStatus(CONFLICT_TEXT);
+          setError(CONFLICT_TEXT);
         } else if (err === SERVER_ERROR) {
-          setStatus(SERVER_ERROR_TEXT);
+          setError(SERVER_ERROR_TEXT);
         } else {
-          setStatus("При регистрации пользователя произошла ошибка.");
+          setError("При регистрации пользователя произошла ошибка.");
         }
       });
   };
 
-  const handleUpdateUser = (data) => {
+  // обновление информации о пользователе
+  function handleUpdateUser(data) {
     setIsLoading(true);
     mainApi
       .editUserInfo(data, localStorage.token)
@@ -175,31 +178,32 @@ function App() {
         setCurrentUser(res);
         setIsLoading(false);
         setIsEdit(false);
-        setIsStatusPopupOpen(true);
-        setIsStatus(true);
-        setTextPopup("Данные успешно сохранены!");
+        setIsSuccessPopup(true);
+        setIsError(true);
+        setSuccessPopupText("Данные успешно сохранены!");
       })
       .catch((err) => {
         setIsLoading(false);
         console.log(`Возникла ошибка: ${err}`);
         if (err === CONFLICT) {
-          setStatus(CONFLICT_TEXT);
+          setError(CONFLICT_TEXT);
         } else if (err === SERVER_ERROR) {
-          setStatus(SERVER_ERROR_TEXT);
+          setError(SERVER_ERROR_TEXT);
         } else {
-          setStatus("При обновлении профиля произошла ошибка.");
+          setError("При обновлении данных произошла ошибка.");
         }
       });
   };
 
-  const handleSignOut = () => {
+  //выход из аккаунта
+  function handleLogout() {
     localStorage.clear();
     setIsLoggedIn(false);
     navigate("/");
   };
 
-
-  const handleCreateMovie = (
+  
+  function handleCreateMovie (
     country,
     director,
     duration,
@@ -212,7 +216,7 @@ function App() {
     nameEN,
     movieId,
     setIsSave
-  ) => {
+  ) {
     setIsLoadingMovies(true);
     mainApi
       .createMovie(
@@ -241,7 +245,8 @@ function App() {
       });
   };
 
-  const handleDeleteMovie = (id, setIsSave) => {
+  //удаление карточки с фильмом
+  function handleDeleteMovie(id, setIsSave) {
     setIsLoadingMovies(true);
     mainApi
       .deleteMovie(id, localStorage.token)
@@ -257,12 +262,13 @@ function App() {
       })
       .catch((err) => {
         setIsLoadingMovies(false);
-        console.log(`Возникла ошибка: ${err}`);
+        console.log(`Ошибка при удалении фильма: ${err}`);
       });
   };
 
-  const closeStatusPopup = () => {
-    setIsStatusPopupOpen(false);
+  // закрытие попапов успешного сохранения, редактирования
+  function closePopupSuccess() {
+    setIsSuccessPopup(false);
   };
 
   return (
@@ -274,21 +280,21 @@ function App() {
             <Route
               path="/movies"
               element={
-                <ProtectedRouteElementForUnauthorizedUser
+                <ProtectedRoute
                   isLoggedIn={isLoggedIn}
                   element={
                     <MoviesPage
                       isLoggedIn={isLoggedIn}
+                      isLoading={isLoading}
+                      isLoadingMovies={isLoadingMovies}
                       movies={movies}
+                      savedMovies={savedMovies}
+                      setIsSearchMovies={setIsSearchMovies}
                       isSearchMovies={isSearchMovies}
                       filteredMovies={filteredMovies}
                       setFilteredMovies={setFilteredMovies}
-                      savedMovies={savedMovies}
-                      setIsSearchMovies={setIsSearchMovies}
                       handleCreateMovie={handleCreateMovie}
                       handleDeleteMovie={handleDeleteMovie}
-                      isLoading={isLoading}
-                      isLoadingMovies={isLoadingMovies}
                     />
                   }
                 />
@@ -297,17 +303,17 @@ function App() {
             <Route
               path="/saved-movies"
               element={
-                <ProtectedRouteElementForUnauthorizedUser
+                <ProtectedRoute
                   isLoggedIn={isLoggedIn}
                   element={
                     <SavedMoviesPage
                       isLoggedIn={isLoggedIn}
-                      filteredSavedMovies={filteredSavedMovies}
-                      savedMovies={savedMovies}
-                      setFilteredSavedMovies={setFilteredSavedMovies}
                       handleDeleteMovie={handleDeleteMovie}
                       isSearchSavedMovies={isSearchSavedMovies}
                       setIsSearchSavedMovies={setIsSearchSavedMovies}
+                      filteredSavedMovies={filteredSavedMovies}
+                      savedMovies={savedMovies}
+                      setFilteredSavedMovies={setFilteredSavedMovies}
                       isLoadingSavedMovies={isLoadingSavedMovies}
                       setIsLoadingSavedMovies={setIsLoadingSavedMovies}
                       isLoadingMovies={isLoadingMovies}
@@ -319,18 +325,18 @@ function App() {
             <Route
               path="/profile"
               element={
-                <ProtectedRouteElementForUnauthorizedUser
+                <ProtectedRoute
                   isLoggedIn={isLoggedIn}
                   element={
                     <ProfilePage
                       isLoggedIn={isLoggedIn}
-                      handleSignOut={handleSignOut}
-                      status={status}
-                      setStatus={setStatus}
                       isLoading={isLoading}
                       handleUpdateUser={handleUpdateUser}
                       isEdit={isEdit}
                       setIsEdit={setIsEdit}
+                      handleLogout={handleLogout}
+                      error={error}
+                      setError={setError}
                     />
                   }
                 />
@@ -344,9 +350,9 @@ function App() {
                 ) : (
                   <RegisterPage
                     handleRegister={handleRegister}
-                    status={status}
-                    setStatus={setStatus}
                     isLoading={isLoading}
+                    error={error}
+                    setError={setError}
                   />
                 )
               }
@@ -359,9 +365,9 @@ function App() {
                 ) : (
                   <LoginPage
                     handleLogin={handleLogin}
-                    status={status}
-                    setStatus={setStatus}
                     isLoading={isLoading}
+                    error={error}
+                    setError={setError}
                   />
                 )
               }
@@ -369,15 +375,13 @@ function App() {
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
-        <InfoTooltip
-          isOpen={isStatusPopupOpen}
-          onClose={closeStatusPopup}
-          isStatus={isStatus}
-          status={textPopup}
+        <InfoPopup
+          isOpen={isSuccessPopup}
+          onClose={closePopupSuccess}
+          isError={isError}
+          error={successPopupText}
         />
       </div>
     </CurrentUserContext.Provider>
   );
-};
-
-export default App;
+}

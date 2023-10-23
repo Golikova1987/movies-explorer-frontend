@@ -1,21 +1,21 @@
+import "./MoviesCard.css";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { BASE_URL_MOVIES_API } from "../../utils/constants";
-import "./MoviesCard.css";
-import Button from "../Buttons/Button";
+import Button from "../Button/Button";
 
-const MoviesCard = ({
+export default function MoviesCard({
   movie,
   movieId,
-  handleCreateMovie,
-  handleDeleteMovie,
   isSaveMovie,
   movieIdDb,
-}) => {
+  handleCreateMovie,
+  handleDeleteMovie,
+}) {
   const [isSave, setIsSave] = useState(isSaveMovie);
   const location = useLocation();
 
-  const handleClickSave = () => {
+  function handleSaveClick() {
     handleCreateMovie(
       movie.country,
       movie.director,
@@ -32,11 +32,11 @@ const MoviesCard = ({
     );
   };
 
-  const handleClickDelete = () => {
+  function handleDeleteClick() {
     handleDeleteMovie(movieIdDb, setIsSave);
   };
 
-  const countTime = (duration) => {
+  function countTime(duration) {
     const hour = Math.trunc(duration / 60);
     const minutes = duration - 60 * hour;
     const res = `${hour}ч ${minutes}м`;
@@ -52,13 +52,13 @@ const MoviesCard = ({
       }
     >
       <a
-        className="movies__link"
+        className="movies__trailer"
         href={movie.trailerLink}
         target="_blank"
         rel="noreferrer"
       >
         <img
-          className="movies__img"
+          className="movies__poster"
           src={
             location.pathname === "/movies"
               ? `${BASE_URL_MOVIES_API}${movie.image.url}`
@@ -69,30 +69,28 @@ const MoviesCard = ({
       </a>
       {location.pathname === "/movies" ? (
         <Button
-          className={`movies__button-save ${
+          className={`movies__save-button ${
             isSave
-              ? "movies__button-save_type_save"
-              : "movies__button-save_type_choose"
+              ? "movies__save-button_type_save"
+              : "movies__save-button_type_choose"
           }`}
           type="button"
           text={!isSave && "Сохранить"}
-          onClick={!isSave ? handleClickSave : handleClickDelete}
+          onClick={!isSave ? handleSaveClick : handleDeleteClick}
         />
       ) : (
         <Button
-          className="movies__button-save movies__button-save_type_delete"
+          className="movies__save-button movies__save-button_type_delete"
           type="button"
-          onClick={handleClickDelete}
+          onClick={handleDeleteClick}
         />
       )}
-      <div className="movies__container-title">
-        <h2 className="movies__title">{movie.nameRU}</h2>
-        <div className="movies__container-time">
-          <p className="movies__time">{countTime(movie.duration)}</p>
+      <div className="movies__info">
+        <h2 className="movies__name">{movie.nameRU}</h2>
+        <div className="movies__container-duration">
+          <p className="movies__duration">{countTime(movie.duration)}</p>
         </div>
       </div>
     </li>
   );
-};
-
-export default MoviesCard;
+}

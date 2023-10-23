@@ -1,11 +1,9 @@
 import "./NoResultSearch.css";
 
-const NoResultSearch = () => {
+export default function NoResultSearch() {
   return (
     <section className="no-result">
-      <h1 className="no-result__heading">Ничего не найдено</h1>
+      <h1 className="no-result__title">Ничего не найдено</h1>
     </section>
   );
-};
-
-export default NoResultSearch;
+}

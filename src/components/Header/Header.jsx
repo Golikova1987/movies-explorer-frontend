@@ -1,15 +1,15 @@
-import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
 import logo from "../../images/logo.svg";
+import { Link, useLocation } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
 
-const Header = ({ isLoggedIn }) => {
+export default function Header ({ isLoggedIn }) {
   const location = useLocation();
 
   return (
     <header
       className={`header ${
-        location.pathname === "/" ? "header_type_main" : ""
+        location.pathname === "/" ? "header_type_background" : ""
       }`}
     >
       <div className="header__container">
@@ -19,14 +19,14 @@ const Header = ({ isLoggedIn }) => {
         {isLoggedIn ? (
           <Navigation />
         ) : (
-          <nav>
+          <nav className='header__nav'>
             <ul className="header__list">
-              <li>
+              <li className='header__item'>
                 <Link className="header__link" to="/signup">
                   Регистрация
                 </Link>
               </li>
-              <li>
+              <li className='header__item'>
                 <Link
                   className="header__link header__link_type_login"
                   to="/signin"
@@ -40,6 +40,4 @@ const Header = ({ isLoggedIn }) => {
       </div>
     </header>
   );
-};
-
-export default Header;
+}

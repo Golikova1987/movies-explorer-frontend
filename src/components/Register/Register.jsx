@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import AuthForm from "../AuthForm/AuthForm";
-import Input from "../Inputs/Input";
-import useFormWithValidation from "../../hooks/useFormWithValidation";
+import Input from "../Input/Input";
+import useFormValidation from "../../hooks/useFormValidation";
 
-const Register = ({ handleRegister, status, setStatus, isLoading }) => {
+export default function Register({ handleRegister, error, setError, isLoading }) {
   const initialValues = {
     "auth-name": "",
     "auth-email": "",
@@ -50,14 +50,14 @@ const Register = ({ handleRegister, status, setStatus, isLoading }) => {
     ],
   };
 
-  const { values, handleChange, errors, isValid } = useFormWithValidation(
+  const { values, handleChange, errors, isValid } = useFormValidation(
     initialValues,
     validationRules
   );
 
   useEffect(() => {
     return () => {
-      setStatus("");
+      setError("");
     };
   }, []);
 
@@ -65,7 +65,7 @@ const Register = ({ handleRegister, status, setStatus, isLoading }) => {
     <main>
       <AuthForm
         title="Добро пожаловать!"
-        name="auth-reg"
+        name="register"
         onSubmit={() =>
           handleRegister(
             values["auth-name"],
@@ -78,7 +78,7 @@ const Register = ({ handleRegister, status, setStatus, isLoading }) => {
         textLink="Войти"
         path="/signin"
         isValid={isValid}
-        status={status}
+        error={error}
         isLoading={isLoading}
       >
         <Input
@@ -133,6 +133,4 @@ const Register = ({ handleRegister, status, setStatus, isLoading }) => {
       </AuthForm>
     </main>
   );
-};
-
-export default Register;
+}
