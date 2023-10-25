@@ -31,23 +31,23 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false); //состояние авторизации пользователя
+  const [isLoggedIn, setIsLoggedIn] = useState(true); //состояние авторизации пользователя
   const [isLoading, setIsLoading] = useState(false); //индикатор загрузки профиль логин регист
   const [isLoadingSavedMovies, setIsLoadingSavedMovies] = useState(false); //индикатор загрузки сохраненных фильмов
   const [isLoadingMovies, setIsLoadingMovies] = useState(false); //индикатор загрузки фильмов
   const [isSuccessPopup, setIsSuccessPopup] = useState(false); //попап успеха сохранения данных
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState("");
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);//отрисовка кнопки редакт сохран
   const [successPopupText, setSuccessPopupText] = useState("");// текст попапа успешного сохранения и изменения
   const [currentUser, setCurrentUser] = useState({}); //получение данных
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState([]);//массив с фильмами
   const [savedMovies, setSavedMovies] = useState([]); //массив сохраненных фильмов
   const [isSearchMovies, setIsSearchMovies] = useState(false);
   const [isSearchSavedMovies, setIsSearchSavedMovies] = useState(false);
   const [filteredMovies, setFilteredMovies] = useState(
     JSON.parse(localStorage.getItem("filteredMovies")) || []
-  );
+  );//отрисовывает фильмы
   const [filteredSavedMovies, setFilteredSavedMovies] = useState([]);
 
   // загрузка сохраненных фильмов и профиля пользователя
