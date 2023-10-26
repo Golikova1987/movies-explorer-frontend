@@ -4,6 +4,19 @@
   gap: 77px;
   padding-bottom: 86px;
 }
+/**/
+.movies__card-error {
+  text-align: center;
+  margin: 0 auto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.movies__button_hidden {
+  visibility: hidden;
+}
 
 .movies__card-list {
   display: grid;
@@ -17,6 +30,14 @@
   column-gap: 30px;
   padding: 80px 0 0;
   width: -webkit-fill-available;
+  /* padding-left: 0;
+  padding-bottom: 10px;
+  margin: 0 auto;
+  display: flex;
+  gap: 38px 20px;
+  flex-wrap: wrap;
+  list-style: none;
+  box-sizing: border-box; */
 }
 
 .movies__button {

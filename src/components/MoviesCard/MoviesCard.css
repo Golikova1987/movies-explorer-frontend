@@ -35,6 +35,7 @@
   transition: transform 0.3s;
   object-fit: cover;
   object-position: center;
+  gap: 14px;
 }
 
 .movies__trailer:hover > .movies__poster {
@@ -97,6 +98,7 @@
   box-sizing: border-box;
   display: flex;
   gap: 33px;
+  padding-top: 14px;
 }
 
 .movies__name {
@@ -131,6 +133,10 @@
     gap: 25px;
   }
 
+  .movies__info {
+    padding-top: 25px;
+  }
+
   .movies__poster {
     height: 190px;
   }
@@ -152,6 +158,10 @@
 
   .movies__card {
     gap: 15px;
+  }
+
+  .movies__info {
+    padding-top: 15px;
   }
 
   .movies__card_type_unsaved:nth-last-child(-n + 7) {
