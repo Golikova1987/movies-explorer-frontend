@@ -14,39 +14,70 @@ export default function MoviesCard({
   handleDeleteMovie,
   savedMovies,
 }) {
-  
   const { pathname } = useLocation();
-    const [isLiked, setIsLiked] = useState(false);
+  const [isSave, setIsSave] = useState(false);
 
-    useEffect(() => {
-        if (pathname === "/movies")
-            setIsLiked(savedMovies.some(element => movie.id === element.movieId))
-    }, [savedMovies, movie.id, setIsLiked, pathname]);
+  useEffect(() => {
+    if (pathname === "/movies")
+      setIsSave(savedMovies.some((element) => movie.id === element.movieId));
+  }, [savedMovies, movie.id, setIsSave, pathname]);
 
-    function handleLikeClick() {
-        if (savedMovies.some(element => movie.id === element.movieId)) {
-            setIsLiked(true);
-            handleCreateMovie(movie)
-        } else {
-            setIsLiked(false)
-            handleCreateMovie(movie)
-        }
+  function handleLikeClick() {
+    if (savedMovies.some((element) => movie.id === element.movieId)) {
+      setIsSave(true);
+      handleCreateMovie(movie);
+    } else {
+      setIsSave(false);
+      handleCreateMovie(movie);
     }
+  }
+
+  /*function handleDeleteClick() {
+      handleDeleteMovie(movieIdDb, setIsSave);
+    };*/
 
   return (
-    <li className="movies__сard">
-      <a className="movies__trailer" href={movie.trailerLink} target='_blank' rel="noreferrer">
-        <img className="movies__poster" alt={movie.nameRU}
-          src={pathname === "/movies" ? `https://api.nomoreparties.co${movie.image.url}` : movie.image}
-        />
-      </a>
-
-      {pathname === "/movies" ?
-        <button className={`movies__save-button ${isLiked ? "movies__save-button_type_save" : ""}`} type="button" aria-label="Поставить лайк" onClick={handleLikeClick}></button>
-        :
-        <button className="movies__save-button movies__save-button_type_delete" type="button" aria-label="Удалить фильм" onClick={() => handleDeleteMovie(movie._id)}></button>
+    <li
+      className={
+        pathname === "/movies"
+          ? "movies__card movies__card_type_unsaved"
+          : "movies__card movies__card_type_saved"
       }
-      
+    >
+      <a
+        className="movies__trailer"
+        href={movie.trailerLink}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <img
+          className="movies__poster"
+          src={
+            pathname === "/movies"
+              ? `https://api.nomoreparties.co${movie.image.url}`
+              : movie.image
+          }
+          alt={movie.nameRU}
+        ></img>
+      </a>
+      {pathname === "/movies" ? (
+        <Button
+          className={`movies__save-button ${
+            isSave
+              ? "movies__save-button_type_save"
+              : "movies__save-button_type_choose"
+          }`}
+          type="button"
+          text={!isSave && "Сохранить"}
+          onClick={handleLikeClick}
+        />
+      ) : (
+        <Button
+          className="movies__save-button movies__save-button_type_delete"
+          type="button"
+          onClick={() => handleDeleteMovie(movie._id)}
+        />
+      )}
       <div className="movies__info">
         <h2 className="movies__name">{movie.nameRU}</h2>
         <div className="movies__container-duration">
@@ -56,8 +87,6 @@ export default function MoviesCard({
     </li>
   );
 }
-
-
 
 // import "./MoviesCard.css";
 // import { useLocation } from "react-router-dom";

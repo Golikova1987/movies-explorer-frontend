@@ -14,29 +14,27 @@ import {
 import displayMovies from "../../utils/displayMovies";
 // import { Button } from "react-scroll";
 
-export default function MoviesCardList(
-  {
-    filterListFilms,
-    savedMovies,
-    isLoading,
-    serverError,
-    handleDeleteMovie,
-    handleCreateMovie,
-    searchInput,
-    // handleDeleteMovie,
-    // isSearchMovies,
-    // handleShowCards,
-    // isSearchSavedMovies,
-    // visibleCardsCount,
-    // isLoadingSavedMovies,
-    // setIsLoadingSavedMovies,
-    // isLoadingMovies,
-    // filteredMovies,
-    // savedMovies,
-    // filteredSavedMovies,
-    // handleCreateMovie,
-  }
-) {
+export default function MoviesCardList({
+  filterListFilms,
+  savedMovies,
+  isLoading,
+  serverError,
+  handleDeleteMovie,
+  handleCreateMovie,
+  searchInput,
+  // handleDeleteMovie,
+  // isSearchMovies,
+  // handleShowCards,
+  // isSearchSavedMovies,
+  // visibleCardsCount,
+  // isLoadingSavedMovies,
+  // setIsLoadingSavedMovies,
+  // isLoadingMovies,
+  // filteredMovies,
+  // savedMovies,
+  // filteredSavedMovies,
+  // handleCreateMovie,
+}) {
   const { pathname } = useLocation();
   const [isNumber, setIsNumber] = useState("");
   const movies = filterListFilms.slice(0, isNumber);
@@ -109,24 +107,22 @@ export default function MoviesCardList(
             Для получения списка фильмов выполните верный поиск»
           </span>
         ) : (
-          <span className="movies__card-error">
-            «Нет сохраненных фильмов»
-          </span>
+          <span className="movies__card-error">«Нет сохраненных фильмов»</span>
         )}
       </ul>
 
       {/* <div className="moviescardlist__btn-container"> */}
-        {pathname === "/movies" && (
-          <Button
-            className={`movies__button ${
-              isNumber >= filterListFilms.length && "movies__button_hidden"
-            }`}
-            onClick={handleAddButtonClick}
-            type="button"
-          >
-            Ещё
-          </Button>
-        )}
+      {pathname === "/movies" && (
+        <Button
+          className={`movies__button ${
+            isNumber >= filterListFilms.length && "movies__button_hidden"
+          }`}
+          onClick={handleAddButtonClick}
+          type="button"
+        >
+          Ещё
+        </Button>
+      )}
       {/* </div> */}
     </section>
   );

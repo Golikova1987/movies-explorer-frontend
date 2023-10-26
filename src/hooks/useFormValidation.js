@@ -27,7 +27,7 @@ function useFormValidation() {
 
     if (name === 'password') {
       if (!target.checkValidity()) {
-        setErrors({ ...errors, [name]: 'Минимальная длина символов для пароля: 6' });
+        setErrors({ ...errors, [name]: 'Минимальная длина символов для пароля: 8' });
       } else {
         setErrors({ ...errors, [name]: '' });
       }
