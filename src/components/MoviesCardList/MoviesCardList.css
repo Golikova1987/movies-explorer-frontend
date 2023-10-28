@@ -4,7 +4,7 @@
   gap: 77px;
   padding-bottom: 86px;
 }
-/**/
+
 .movies__card-error {
   text-align: center;
   margin: 0 auto;
@@ -12,6 +12,8 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  grid-column: 1 / -1;
+
 }
 
 .movies__button_hidden {
@@ -30,14 +32,6 @@
   column-gap: 30px;
   padding: 80px 0 0;
   width: -webkit-fill-available;
-  /* padding-left: 0;
-  padding-bottom: 10px;
-  margin: 0 auto;
-  display: flex;
-  gap: 38px 20px;
-  flex-wrap: wrap;
-  list-style: none;
-  box-sizing: border-box; */
 }
 
 .movies__button {
@@ -70,7 +64,7 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+  @media screen and (max-width: 707px) {
   .movies {
     padding-bottom: 79px;
   }
@@ -81,4 +75,5 @@
     padding: 52px 0 0;
     row-gap: 37px;
   }
+
 }

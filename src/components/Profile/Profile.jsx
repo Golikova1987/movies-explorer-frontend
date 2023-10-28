@@ -59,10 +59,10 @@ export default function Profile({
   };
 
   const { handleChange, values, errors, resetForm } = useFormValidation(
-    validationRules,
-    initialValues
+    initialValues,
+    validationRules
   );
-
+// console.log(errors);
   useEffect(() => {
     if (currentUser) {
       resetForm(
@@ -98,9 +98,6 @@ export default function Profile({
           onSubmit={isEdit ? handleSubmitSave : handleSubmitEdit}
         >
           <div className="profile__inputs">
-            <span className="profile__input-error profile__input-error_type_name">
-              {errors.name}
-            </span>
             <Input
               classNameInput={`profile__input ${
                 errors.name ? "profile__input_type_error" : ""
@@ -113,9 +110,14 @@ export default function Profile({
               value={values.name || ""}
               disabled={!isEdit}
               onChange={(e) => handleChange(e)}
-              min="2"
-              max="30"
-            />
+              minLength="2"
+              maxLength="30"
+              required
+            >
+            </Input>
+            <span className="profile__input-error profile__input-error_type_name">
+              {errors.name}
+            </span>
             <Input
               classNameInput={`profile__input ${
                 errors.email ? "profile__input_type_error" : ""
@@ -128,6 +130,7 @@ export default function Profile({
               value={values.email || ""}
               disabled={!isEdit}
               onChange={(e) => handleChange(e)}
+              required
             />
             <span className="profile__input-error profile__input-error_type_email">
               {errors.email}

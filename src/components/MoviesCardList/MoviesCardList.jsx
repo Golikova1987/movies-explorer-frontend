@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 import "./MoviesCardList.css";
 import { useState, useEffect } from "react";
-// import ResultSearch from "../ResultSearch/ResultSearch";
 import Preloader from "../Preloader/Preloader";
 import Button from "../Button/Button";
 import MoviesCard from "../MoviesCard/MoviesCard";
@@ -12,58 +11,45 @@ import {
   Mobile_Width_Screen,
 } from "../../utils/constants";
 import displayMovies from "../../utils/displayMovies";
-// import { Button } from "react-scroll";
 
 export default function MoviesCardList({
-  filterListFilms,
-  savedMovies,
   isLoading,
+  filteredMovies,
+  savedMovies,
   serverError,
   handleDeleteMovie,
-  handleCreateMovie,
   searchInput,
-  // handleDeleteMovie,
-  // isSearchMovies,
-  // handleShowCards,
-  // isSearchSavedMovies,
-  // visibleCardsCount,
-  // isLoadingSavedMovies,
-  // setIsLoadingSavedMovies,
-  // isLoadingMovies,
-  // filteredMovies,
-  // savedMovies,
-  // filteredSavedMovies,
-  // handleCreateMovie,
+  handleCreateMovie,
 }) {
   const { pathname } = useLocation();
-  const [isNumber, setIsNumber] = useState("");
-  const movies = filterListFilms.slice(0, isNumber);
+  const [isNumberMovies, setNumberMovies] = useState("");
+  const movies = filteredMovies.slice(0, isNumberMovies);
 
   useEffect(() => {
     if (pathname === "/movies") {
-      setIsNumber(displayMovies().cards);
+      setNumberMovies(displayMovies().cards);
 
       function resizeDisplayMovies() {
         if (window.innerWidth >= Max_Width_Screen) {
-          setIsNumber(displayMovies().cards);
+          setNumberMovies(displayMovies().cards);
         }
         if (window.innerWidth < Max_Width_Screen) {
-          setIsNumber(displayMovies().cards);
+          setNumberMovies(displayMovies().cards);
         }
         if (window.innerWidth < Center_Width_Screen) {
-          setIsNumber(displayMovies().cards);
+          setNumberMovies(displayMovies().cards);
         }
         if (window.innerWidth < Mobile_Width_Screen) {
-          setIsNumber(displayMovies().cards);
+          setNumberMovies(displayMovies().cards);
         }
       }
       window.addEventListener("resize", resizeDisplayMovies);
       return () => window.removeEventListener("resize", resizeDisplayMovies);
     }
-  }, [pathname, filterListFilms]);
+  }, [pathname, filteredMovies]);
 
   function handleAddButtonClick() {
-    setIsNumber(isNumber + displayMovies().add);
+    setNumberMovies(isNumberMovies + displayMovies().add);
   }
 
   return (
@@ -82,8 +68,8 @@ export default function MoviesCardList({
               />
             );
           })
-        ) : filterListFilms.length !== 0 ? (
-          filterListFilms.map((movie) => {
+        ) : filteredMovies.length !== 0 ? (
+          filteredMovies.map((movie) => {
             return (
               <MoviesCard
                 key={movie._id}
@@ -103,19 +89,17 @@ export default function MoviesCardList({
           </span>
         ) : pathname === "/movies" ? (
           <span className="movies__card-error">
-            «Ничего не найдено.<br></br>
-            Для получения списка фильмов выполните верный поиск»
+            «Ничего не найдено»
           </span>
         ) : (
           <span className="movies__card-error">«Нет сохраненных фильмов»</span>
         )}
       </ul>
 
-      {/* <div className="moviescardlist__btn-container"> */}
       {pathname === "/movies" && (
         <Button
           className={`movies__button ${
-            isNumber >= filterListFilms.length && "movies__button_hidden"
+            isNumberMovies >= filteredMovies.length && "movies__button_hidden"
           }`}
           onClick={handleAddButtonClick}
           type="button"
@@ -123,133 +107,6 @@ export default function MoviesCardList({
           Ещё
         </Button>
       )}
-      {/* </div> */}
     </section>
   );
 }
-
-// import { useLocation } from "react-router-dom";
-// import "./MoviesCardList.css";
-// import { useState, useEffect } from "react";
-// import ResultSearch from "../ResultSearch/ResultSearch";
-// import Preloader from "../Preloader/Preloader";
-// import Button from "../Button/Button";
-// import MoviesCard from "../MoviesCard/MoviesCard";
-
-// export default function MoviesCardList({
-//   handleDeleteMovie,
-//   isSearchMovies,
-//   handleShowCards,
-//   isSearchSavedMovies,
-//   visibleCardsCount,
-//   isLoadingSavedMovies,
-//   setIsLoadingSavedMovies,
-//   isLoadingMovies,
-//   filteredMovies,
-//   savedMovies,
-//   filteredSavedMovies,
-//   handleCreateMovie,
-// }) {
-//   const location = useLocation();
-//   const [isLoading, setIsLoading] = useState(false);
-
-//   useEffect(() => {
-//     setIsLoading(true);
-//     setTimeout(() => {
-//       setIsLoading(false);
-//     }, 1500);
-//   }, [filteredMovies]);
-
-//   useEffect(() => {
-//     if (isLoadingSavedMovies) {
-//       setTimeout(() => {
-//         setIsLoadingSavedMovies(false);
-//       }, 1500);
-//     }
-//   }, [filteredSavedMovies, isLoadingSavedMovies, setIsLoadingSavedMovies]);
-
-//   const savedMoviesIds = savedMovies.map((item) => item.movieId);
-
-//   const findIdDb = (id) => {
-//     const foundItem = savedMovies.find((item) => item.movieId === id);
-//     return foundItem ? foundItem._id : null;
-//   };
-
-//   return (
-//     <>
-//       {location.pathname === "/movies" &&
-//         (isLoadingMovies ? (
-//           filteredMovies.length !== 0 &&
-//           localStorage.getItem("searchQueryFilteredMovies") !== "" ? (
-//             isLoading ? (
-//               <Preloader />
-//             ) : (
-//               <section className="movies" aria-label="фильмы">
-//                 <ul className="movies__card-list">
-//                   {filteredMovies
-//                     .slice(0, visibleCardsCount)
-//                     .map(({ id, ...props }) => (
-//                       <MoviesCard
-//                         movie={props}
-//                         key={id}
-//                         handleCreateMovie={handleCreateMovie}
-//                         handleDeleteMovie={handleDeleteMovie}
-//                         isSaveMovie={savedMoviesIds.includes(id)}
-//                         movieIdDb={findIdDb(id)}
-//                         movieId={id}
-//                       />
-//                     ))}
-//                 </ul>
-//                 {filteredMovies.length > visibleCardsCount && (
-//                   <Button
-//                     className="movies__button"
-//                     text="Ещё"
-//                     onClick={handleShowCards}
-//                     type="button"
-//                   />
-//                 )}
-//               </section>
-//             )
-//           ) : (
-//             isSearchMovies &&
-//             (isLoading ? <Preloader /> : <ResultSearch isError={false} />)
-//           )
-//         ) : (
-//           <ResultSearch isError={true} />
-//         ))}
-
-//       {location.pathname === "/saved-movies" &&
-//         (isLoadingMovies ? (
-//           filteredSavedMovies.length !== 0 ? (
-//             isLoadingSavedMovies ? (
-//               <Preloader />
-//             ) : (
-//               <section className="movies" aria-label="сохраненные фильмы">
-//                 <ul className="movies__card-list">
-//                   {filteredSavedMovies.map(({ movieId, _id, ...props }) => (
-//                     <MoviesCard
-//                       movie={props}
-//                       movieId={movieId}
-//                       key={movieId}
-//                       handleDeleteMovie={handleDeleteMovie}
-//                       isSaveMovie={savedMoviesIds.includes(movieId)}
-//                       movieIdDb={_id}
-//                     />
-//                   ))}
-//                 </ul>
-//               </section>
-//             )
-//           ) : (
-//             isSearchSavedMovies &&
-//             (isLoadingSavedMovies ? (
-//               <Preloader />
-//             ) : (
-//               <ResultSearch isError={false} />
-//             ))
-//           )
-//         ) : (
-//           <ResultSearch isError={true} />
-//         ))}
-//     </>
-//   );
-// }
