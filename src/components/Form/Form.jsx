@@ -1,9 +1,7 @@
-const Form = ({ children, name, onSubmit, className }) => {
+export default function Form ({ children, name, onSubmit, className }) {
   return (
-      <form className={className} name={name} onSubmit={onSubmit} novalidate>
+      <form className={className} name={name} onSubmit={onSubmit} noValidate>
           {children}
       </form>
-  )
+  );
 }
-
-export default Form;

@@ -1,15 +1,8 @@
 import { Navigate } from "react-router-dom";
 
-export const ProtectedRouteAuthorized = ({
-  loggedIn,
+export const ProtectedRoute = ({
+  isLoggedIn,
   element,
 }) => {
-  return !loggedIn ? element : <Navigate to="/movies" replace />;
-};
-
-export const ProtectedRouteUnauthorized = ({
-  loggedIn,
-  element,
-}) => {
-  return loggedIn ? element : <Navigate to="/" replace />;
+  return isLoggedIn ? element : <Navigate to="/" replace />;
 };

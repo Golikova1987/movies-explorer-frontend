@@ -3,25 +3,24 @@ import { NavLink, useLocation } from "react-router-dom";
 import Button from "../Button/Button";
 
 export default function Navigation() {
-  const [openBurger, setOpenBurger] = useState(false);
+  const [isOpenBurger, setIsOpenBurger] = useState(false);
   const location = useLocation();
 
   const setActive = ({ isActive }) =>
     isActive
       ? "header__link header__link_type_auth header__link_active"
       : "header__link header__link_type_auth";
-      
   const setProfile = ({ isActive }) =>
     isActive
       ? "header__link header__link_type_auth header__link_type_profile header__link_active"
       : "header__link header__link_type_auth header__link_type_profile";
 
-  const handleOpenBurger = () => {
-    setOpenBurger(true);
+  function handleOpenBurger() {
+    setIsOpenBurger(true);
   };
 
-  const handleCloseBurger = () => {
-    setOpenBurger(false);
+  function handleCloseBurger() {
+    setIsOpenBurger(false);
   };
 
   return (
@@ -33,7 +32,7 @@ export default function Navigation() {
       />
       <nav
         className={`header__mobile ${
-          openBurger ? "header__mobile_active" : ""
+          isOpenBurger ? "header__mobile_active" : ""
         }`}
       >
         <div className="header__mobile-container">
@@ -95,4 +94,4 @@ export default function Navigation() {
       </nav>
     </>
   );
-};
+}

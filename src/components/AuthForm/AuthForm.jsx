@@ -1,30 +1,61 @@
 import { Link } from "react-router-dom";
-import logo from "../../images/logo.svg";
-import Form from "../Form/Form.jsx";
 import "./AuthForm.css";
-import Button from "../Button/Button.jsx";
+import Form from "../Form/Form";
+import Button from "../Button/Button";
+import logo from "../../images/logo.svg";
 
-
-export default function AuthForm({ title, onSubmit, name, children, textButton, textUnderButton, textLink, path, loginForm }) {
+export default function AuthForm({
+  title,
+  name,
+  textLink,
+  textUnderButton,
+  onSubmit,
+  children,
+  isLoading,
+  textButton,
+  path,
+  isFormLogin,
+  isValid,
+  isValidLogin,
+  error,
+  errorLogin,
+}) {
+  function handleSubmit(e) {
+    e.preventDefault();
+    onSubmit();
+  };
+  // console.log(isValid);
   return (
     <section className="form">
       <Link className="form__link form__link_type_logo" to="/">
         <img className="form__logo" src={logo} alt="Логотип"></img>
       </Link>
       <h1 className="form__title">{title}</h1>
-      <Form className="form__auth" onSubmit={onSubmit} name={name}>
+      <Form
+        className="form__auth"
+        onSubmit={(e) => handleSubmit(e)}
+        name={name}
+      >
         {children}
         <div
           className={`form__container ${
-            loginForm ? "form__container_type_login" : ""
+            isFormLogin ? "form__container_type_login" : ""
           }`}
         >
-          <Button 
+          <p
+            className={`form__error ${
+              isFormLogin ? "form__error_type_login" : ""
+            }`}
+          >
+            {isFormLogin ? errorLogin : error}
+          </p>
+          <Button
             className={`form__button ${
-              loginForm ? "form__button_type_login" : ""
+              isFormLogin ? "form__button_type_login" : ""
             }`}
             type="submit"
             text={textButton}
+            disabled={(isFormLogin ? !isValidLogin : !isValid) || isLoading}
           />
           <p className="form__text">
             {textUnderButton}{" "}

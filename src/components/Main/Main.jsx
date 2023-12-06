@@ -8,13 +8,13 @@ import Portfolio from "../Portfolio/Portfolio";
 
 export default function Main() {
   return (
-    <main className="content">
-      <Promo/>
-      <NavTab/>
-      <AboutProject/>
-      <Techs/>
-      <AboutMe/>
-      <Portfolio/>
+    <main className="main">
+      <Promo />
+      <NavTab />
+      <AboutProject />
+      <Techs />
+      <AboutMe />
+      <Portfolio />
     </main>
   );
 }
